@@ -1,4 +1,4 @@
-# 🐍 Python for Data Science, Machine Learning & AI
+#  Python for Data Science, Machine Learning & AI
 
 ## Class 02 — NumPy, Pandas, Data Cleaning, Visualization & EDA
 
@@ -18,7 +18,7 @@
 
 ---
 
-## 🚀 Open in Google Colab
+##  Open in Google Colab
 
 After uploading this notebook to the repository as:
 
@@ -30,7 +30,7 @@ https://colab.research.google.com/github/muhammadsalek/python-data-science-cours
 
 ---
 
-## 📂 Dataset
+##  Dataset
 
 **Titanic Dataset — Kaggle**  
 https://www.kaggle.com/datasets/yasserh/titanic-dataset
@@ -39,7 +39,7 @@ For the live class, download `Titanic-Dataset.csv` and upload it to Google Colab
 
 ---
 
-# 🎯 Class Goal
+#  Class Goal
 
 By the end of this 4-hour class, students should be able to move through a complete beginner-friendly data workflow:
 
@@ -74,7 +74,7 @@ EXPORT CLEAN DATA + FIGURES
 
 ---
 
-# 📚 Table of Contents
+#  Table of Contents
 
 <details>
 <summary><strong>Click to expand</strong></summary>
@@ -127,7 +127,7 @@ EXPORT CLEAN DATA + FIGURES
 ---
 
 
-# 🌱 Beginner Notes — How to Read Python Code
+#  Beginner Notes — How to Read Python Code
 
 Before learning NumPy and pandas, remember four simple ideas:
 
@@ -493,7 +493,7 @@ np.linalg.inv(A)
 ---
 
 
-## 🌱 pandas Beginner Vocabulary
+##  pandas Beginner Vocabulary
 
 Before using pandas, understand these terms:
 
@@ -1222,7 +1222,7 @@ Using the same Titanic dataset:
 
 ---
 
-# ✅ Class 02 Checklist
+#  Class 02 Checklist
 
 ```text
 ✓ NumPy arrays
@@ -1265,7 +1265,7 @@ Using the same Titanic dataset:
 
 ---
 
-# 🎓 Salek Data Lab
+#  Salek Data Lab
 
 **Python for Data Science, Machine Learning & AI**
 
