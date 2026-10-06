@@ -71,17 +71,6 @@ EXPORT CLEAN DATA + FIGURES
 
 ---
 
-# ⏱️ Suggested 4-Hour Teaching Plan
-
-| Time | Module | Main Topics |
-|---|---|---|
-| 0:00–0:15 | Setup & Dataset Audit | Colab, imports, load Titanic, shape, columns, types, missingness |
-| 0:15–1:00 | NumPy | Arrays, dimensions, indexing, slicing, vectorization, broadcasting, statistics, linear algebra, random data |
-| 1:00–2:00 | Pandas | Series, DataFrame, import/export, selection, filtering, sorting, ranking, variables, groupby |
-| 2:00–2:45 | Cleaning & Wrangling | labels, types, impossible values, missing values, duplicates, outliers, map/apply, merge/join/concat, reshape, pivot |
-| 2:45–3:30 | Visualization | Matplotlib, Seaborn, Plotly, histogram, bar, box, scatter, line, count, heatmap, pair plot, subplots |
-| 3:30–3:55 | EDA & Statistics | descriptive summaries, distributions, correlation, cross-tabs, uni/bi/multivariate EDA |
-| 3:55–4:00+ | Inference & Export | CI, t-test, chi-square, save figures and cleaned dataset |
 
 ---
 
@@ -137,6 +126,140 @@ EXPORT CLEAN DATA + FIGURES
 
 ---
 
+
+# 🌱 Beginner Notes — How to Read Python Code
+
+Before learning NumPy and pandas, remember four simple ideas:
+
+1. `=` means **store a value in a variable**.
+2. `()` usually means **call a function or method**.
+3. `[]` is commonly used for a list, array values, indexing, or selecting a DataFrame column.
+4. `.` means **use something that belongs to an object or library**.
+
+Example:
+
+```python
+x = np.array([10, 20, 30])
+```
+
+Read it from right to left:
+
+- `[10, 20, 30]` → three values;
+- `np.array(...)` → ask NumPy to convert those values into an array;
+- `x =` → store that array under the name `x`.
+
+So later, when we write:
+
+```python
+x.mean()
+```
+
+Python understands that we want the mean of the values stored in `x`.
+
+---
+
+## Understanding `import numpy as np`
+
+```python
+import numpy as np
+```
+
+- `import` → bring a library into the current Python session.
+- `numpy` → the full library name.
+- `as np` → give NumPy the short nickname `np`.
+- Therefore, `np.array()`, `np.mean()`, and `np.sqrt()` all come from NumPy.
+
+Similarly:
+
+```python
+import pandas as pd
+```
+
+means that `pd` is the short name for pandas.
+
+---
+
+## Understanding `rng = np.random.default_rng(42)`
+
+```python
+rng = np.random.default_rng(42)
+```
+
+This line creates a **random-number generator**.
+
+Break it down:
+
+- `np` → NumPy.
+- `.random` → NumPy's random-number tools.
+- `.default_rng()` → creates NumPy's recommended random generator.
+- `42` → the **seed**.
+- `rng` → the variable name where we store the generator.
+
+### What is a seed?
+
+Computers usually generate **pseudo-random** numbers. A seed gives the generator a reproducible starting point.
+
+```python
+rng1 = np.random.default_rng(42)
+print(rng1.integers(1, 10, size=5))
+
+rng2 = np.random.default_rng(42)
+print(rng2.integers(1, 10, size=5))
+```
+
+Because both generators use the same seed, they produce the same sequence. This is extremely useful in research, teaching, simulation, and machine learning because another person can reproduce the same random results.
+
+`42` is not a special statistical value. You could use another integer. What matters for reproducibility is using the same seed.
+
+### Understanding `rng.normal()`
+
+```python
+normal_sample = rng.normal(
+    loc=100,     # mean / center
+    scale=15,    # standard deviation / spread
+    size=10      # number of observations
+)
+```
+
+Read it as:
+
+> "Use our random generator to create 10 observations from a normal distribution centered at 100 with standard deviation 15."
+
+Parameter meanings:
+
+| Part | Beginner meaning |
+|---|---|
+| `rng` | the random-number generator we created |
+| `.normal()` | generate values from a normal distribution |
+| `loc=100` | the center/mean of the distribution is 100 |
+| `scale=15` | the standard deviation is 15; it controls spread |
+| `size=10` | generate 10 values |
+
+### Very simple example
+
+```python
+rng = np.random.default_rng(42)
+
+student_scores = rng.normal(
+    loc=70,
+    scale=10,
+    size=5
+)
+
+print(student_scores)
+```
+
+Here:
+
+- `loc=70` → simulated scores are centered around 70;
+- `scale=10` → scores vary around that center with SD 10;
+- `size=5` → only five simulated scores are requested.
+
+The exact sample mean does **not** have to equal 70. `70` describes the population distribution used to generate the sample.
+
+---
+
+
 # 1. NumPy for Scientific Computing
 
 **NumPy** provides fast numerical arrays and mathematical operations.
@@ -155,7 +278,41 @@ Main ideas:
 - broadcasting allows compatible arrays of different shapes to interact;
 - NumPy includes statistics, random generation and linear algebra.
 
+
 ### Core Array Properties
+
+Suppose:
+
+```python
+x = np.array([10, 20, 30, 40, 50])
+```
+
+This is a **1-dimensional array** containing five values.
+
+```python
+x.shape
+```
+
+`shape` tells us how the data are arranged. Here the result is `(5,)`, meaning one dimension with five elements.
+
+```python
+x.ndim
+```
+
+`ndim` means **number of dimensions**. Here it is `1`.
+
+```python
+x.size
+```
+
+`size` means the **total number of values**. Here it is `5`.
+
+```python
+x.dtype
+```
+
+`dtype` tells us the data type stored by NumPy, such as integer or floating point.
+
 
 ```python
 x = np.array([10, 20, 30, 40, 50])
@@ -173,7 +330,28 @@ x.dtype
 | `size` | total number of elements |
 | `dtype` | element data type |
 
+
 ### Indexing and Slicing
+
+**Indexing** means selecting a particular element. Python starts counting at **0**, not 1.
+
+For:
+
+```python
+x = np.array([10, 20, 30, 40, 50])
+```
+
+the positions are:
+
+```text
+Value:  10  20  30  40  50
+Index:   0   1   2   3   4
+```
+
+Therefore `x[0]` is `10`.
+
+**Slicing** means selecting a range. In `x[1:4]`, Python starts at index 1 but stops **before** index 4, so the result is `[20, 30, 40]`.
+
 
 ```python
 x[0]       # first value
@@ -183,7 +361,24 @@ x[:3]      # first three values
 x[::2]     # every second value
 ```
 
+
 ### Vectorization
+
+Vectorization means applying an operation to an entire NumPy array without writing a manual loop.
+
+```python
+x = np.array([1, 2, 3, 4])
+x * 2
+```
+
+Output:
+
+```text
+[2 4 6 8]
+```
+
+NumPy multiplies **every element** by 2. This is shorter and generally faster than manually looping through each value.
+
 
 ```python
 x * 2
@@ -193,7 +388,39 @@ np.sqrt(x)
 
 Instead of manually looping through every value, NumPy applies the operation to the whole array.
 
+
 ### Broadcasting
+
+Broadcasting lets NumPy perform operations between arrays of compatible shapes.
+
+Simple example:
+
+```python
+x = np.array([10, 20, 30])
+x + 5
+```
+
+Output:
+
+```text
+[15 25 35]
+```
+
+Although `5` is only one scalar value, NumPy behaves as if it were applied to every element.
+
+For a matrix:
+
+```python
+matrix = np.array([
+    [1, 2, 3],
+    [4, 5, 6]
+])
+
+matrix + np.array([10, 20, 30])
+```
+
+NumPy applies `[10, 20, 30]` to each row because the shapes are compatible.
+
 
 ```python
 matrix = np.array([[1, 2, 3],
@@ -214,7 +441,45 @@ np.std(x, ddof=1)
 np.percentile(x, [25, 50, 75])
 ```
 
+
 ### Linear Algebra
+
+NumPy can work with vectors and matrices.
+
+```python
+A @ B
+```
+
+`@` means **matrix multiplication**, which is different from:
+
+```python
+A * B
+```
+
+where `*` performs element-by-element multiplication.
+
+Other useful functions:
+
+```python
+A.T
+```
+
+→ transpose: rows become columns.
+
+```python
+np.linalg.det(A)
+```
+
+→ determinant.
+
+```python
+np.linalg.inv(A)
+```
+
+→ inverse of a square invertible matrix.
+
+`linalg` is short for **linear algebra**.
+
 
 ```python
 A = np.array([[1, 2], [3, 4]])
@@ -226,6 +491,40 @@ np.linalg.inv(A)
 ```
 
 ---
+
+
+## 🌱 pandas Beginner Vocabulary
+
+Before using pandas, understand these terms:
+
+- **Row** → usually one observation/person/record.
+- **Column** → one variable, such as `age` or `sex`.
+- **Series** → one labeled column.
+- **DataFrame** → a complete rectangular table containing rows and columns.
+- **Index** → row labels used by pandas.
+- **Method** → an operation attached to an object, such as `df.head()`.
+- **Argument** → information passed inside a function/method.
+- **Boolean condition** → a condition producing `True` or `False`.
+
+Example:
+
+```python
+df["age"]
+```
+
+means:
+
+- `df` → our DataFrame;
+- `["age"]` → select the column named `age`.
+
+But:
+
+```python
+df[["age", "sex"]]
+```
+
+uses a list of column names, so it returns a DataFrame containing two columns.
+
 
 # 2. pandas Fundamentals
 
@@ -309,17 +608,41 @@ A good audit asks:
 ### Select columns
 
 ```python
-df["Age"]
-df[["Age", "Sex", "Survived"]]
+df["age"]
+df[["age", "sex", "survived"]]
 ```
 
 ### `loc`
 
+`loc` selects data using **labels/names**.
+
 ```python
-df.loc[0:5, ["Age", "Sex"]]
+df.loc[0:5, ["age", "sex"]]
+```
+
+- `0:5` → row labels 0 through 5;
+- `["age", "sex"]` → only these named columns.
+
+
+
+```python
+df.loc[0:5, ["age", "sex"]]
 ```
 
 ### `iloc`
+
+`iloc` selects data using **integer positions** rather than labels.
+
+```python
+df.iloc[0:5, 0:4]
+```
+
+- first `0:5` → first five row positions;
+- second `0:4` → first four column positions.
+
+Remember: with normal Python slicing, the ending position is excluded.
+
+
 
 ```python
 df.iloc[0:5, 0:4]
@@ -328,14 +651,14 @@ df.iloc[0:5, 0:4]
 ### Filter rows
 
 ```python
-df[df["Age"] >= 18]
-df[(df["Sex"] == "female") & (df["Pclass"] == 1)]
+df[df["age"] >= 18]
+df[(df["sex"] == "female") & (df["pclass"] == 1)]
 ```
 
 ### Query syntax
 
 ```python
-df.query("Age >= 18 and Pclass == 1")
+df.query("age >= 18 and pclass == 1")
 ```
 
 ---
@@ -343,8 +666,8 @@ df.query("Age >= 18 and Pclass == 1")
 # 6. Sorting and Ranking
 
 ```python
-df.sort_values("Fare", ascending=False)
-df["Fare"].rank(method="average", ascending=False)
+df.sort_values("fare", ascending=False)
+df["fare"].rank(method="average", ascending=False)
 ```
 
 ---
@@ -379,6 +702,31 @@ Save clean dataset
 
 ### Missing Values
 
+A missing value means information is unavailable for that observation. pandas commonly represents missing numeric/tabular values as `NaN` or `<NA>`.
+
+```python
+df.isna()
+```
+
+asks, cell by cell: **Is this value missing?**
+
+```python
+df.isna().sum()
+```
+
+works in two steps:
+
+1. `isna()` produces `True/False`;
+2. `sum()` counts the `True` values in each column.
+
+```python
+df.isna().mean() * 100
+```
+
+works because pandas treats `True` like 1 and `False` like 0 when calculating the mean. Multiplying by 100 converts the proportion to a percentage.
+
+
+
 ```python
 df.isna().sum()
 df.isna().mean() * 100
@@ -407,8 +755,8 @@ df.drop_duplicates()
 Examples:
 
 ```python
-df[df["Age"] < 0]
-df[df["Fare"] < 0]
+df[df["age"] < 0]
+df[df["fare"] < 0]
 ```
 
 ### Outliers
@@ -429,6 +777,26 @@ Outliers are **flagged first**, not automatically deleted.
 
 ### `map()`
 
+`map()` is useful when individual values should be translated into new values.
+
+Example:
+
+```python
+df["survival_label"] = df["survived"].map({
+    0: "Did not survive",
+    1: "Survived"
+})
+```
+
+The dictionary says:
+
+- if the original value is `0`, write `"Did not survive"`;
+- if it is `1`, write `"Survived"`.
+
+This is a simple way to convert coded numeric categories into readable labels.
+
+
+
 Useful for simple value-to-value mappings.
 
 ```python
@@ -439,6 +807,31 @@ df["survival_label"] = df["survived"].map({
 ```
 
 ### `apply()`
+
+`apply()` lets us run a function across values in a Series.
+
+Example:
+
+```python
+def age_category(age):
+    if age < 18:
+        return "Child"
+    elif age < 60:
+        return "Adult"
+    return "Older adult"
+
+df["age_group"] = df["age"].apply(age_category)
+```
+
+Step by step:
+
+1. `def age_category(age):` creates a function.
+2. The `if` / `elif` rules decide the category.
+3. `df["age"]` selects the age column.
+4. `.apply(age_category)` sends each age through the function.
+5. The returned labels are stored in a new column called `age_group`.
+
+
 
 Useful when a custom function is needed.
 
@@ -456,6 +849,26 @@ df["age_group"] = df["age"].apply(age_category)
 ---
 
 # 9. Grouping & Aggregation
+
+`groupby()` follows the idea **split → calculate → combine**.
+
+Example:
+
+```python
+df.groupby("sex")["survived"].mean()
+```
+
+Read it step by step:
+
+1. `df.groupby("sex")` → split rows into sex groups.
+2. `["survived"]` → focus on the survival variable.
+3. `.mean()` → calculate the mean within each group.
+
+Because `survived` is coded `0 = no` and `1 = yes`, its mean is the **proportion surviving**.
+
+Example: a mean of `0.74` means approximately `74%` survived.
+
+
 
 ```python
 df.groupby("sex")["survived"].mean()
@@ -648,6 +1061,23 @@ Multiple variables simultaneously:
 ---
 
 # 16. Correlation
+
+Correlation describes the **direction and strength of a linear association** between two numeric variables.
+
+For Pearson correlation, values range from `-1` to `+1`:
+
+- close to `+1` → strong positive linear association;
+- close to `0` → weak/no linear association;
+- close to `-1` → strong negative linear association.
+
+```python
+df[numeric_columns].corr()
+```
+
+- `df[numeric_columns]` selects numeric variables of interest;
+- `.corr()` calculates pairwise correlations.
+
+
 
 ```python
 df[numeric_columns].corr()
